@@ -2,6 +2,7 @@ package golang_gorutine
 
 import (
 	"fmt"
+	"sync"
 	"testing"
 	"time"
 )
@@ -12,4 +13,16 @@ func TestTimer(t *testing.T) {
 
 	time := <-timer.C
 	fmt.Println(time)
+}
+
+func TestAfterFunc(t *testing.T) {
+	group := sync.WaitGroup{}
+	group.Add(1)
+
+	time.AfterFunc(5*time.Second, func() {
+		fmt.Println("Execute after 1 second")
+		group.Done()
+	})
+
+	group.Wait()
 }
